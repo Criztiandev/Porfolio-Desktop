@@ -11,8 +11,6 @@ import { BrowserHeader, DefaultHeader } from "./Header";
 import { DragControls, motion } from "framer-motion";
 import { BaseProps } from "@/interface/Component";
 import { WindowState } from "@/service/store/slice/window.slice";
-import { useSelector } from "react-redux";
-import { RootState } from "@/service/store";
 
 interface WindowProps extends BaseProps, WindowState {
   title: string;
@@ -57,8 +55,8 @@ const Window = forwardRef(
 
     return (
       <>
-        <div ref={outerRef}>
-          {!isPreview && (
+        {!isPreview && (
+          <div ref={outerRef}>
             <motion.div
               ref={containerRef}
               drag
@@ -77,8 +75,8 @@ const Window = forwardRef(
               className="fixed border-2 border-black rounded-md overflow-hidden bg-white">
               {children}
             </motion.div>
-          )}
-        </div>
+          </div>
+        )}
       </>
     );
   }
