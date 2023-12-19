@@ -1,13 +1,9 @@
-import React, {
-  forwardRef,
-  ForwardedRef,
-  Ref,
-  RefObject,
-  useState,
-} from "react";
+import React, { forwardRef, ForwardedRef, Ref, RefObject } from "react";
 import { BrowserHeader, DefaultHeader } from "./Header";
 import { DragControls, motion } from "framer-motion";
 import { BaseProps } from "@/interface/Component";
+import { useSelector } from "react-redux";
+import { RootState } from "@/service/store";
 
 interface WindowProps extends BaseProps {
   controls: DragControls;
@@ -22,13 +18,14 @@ interface WindowComponent
 }
 const Window = forwardRef(
   ({ controls, children }: WindowProps, ref: ForwardedRef<HTMLDivElement>) => {
-    const [isClose, setIsClose] = useState(true);
-    const [isMaximize, setIsMaximize] = useState(false);
+    const { isMaximize, isClose, isMinimize } = useSelector(
+      (state: RootState) => state.window
+    );
     const containerRef = ref as Ref<HTMLDivElement>;
-
+    const isPreview = isMinimize || isClose;
     return (
       <>
-        {isClose && (
+        {!isPreview && (
           <motion.div
             ref={containerRef}
             drag
@@ -43,10 +40,6 @@ const Window = forwardRef(
             }}
             className="absolute border-2 border-black rounded-md overflow-hidden bg-white">
             {children}
-            <button onClick={() => setIsClose((prev) => !prev)}>Close</button>
-            <button onClick={() => setIsMaximize((prev) => !prev)}>
-              Maximize
-            </button>
           </motion.div>
         )}
       </>

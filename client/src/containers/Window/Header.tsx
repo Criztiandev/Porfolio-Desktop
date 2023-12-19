@@ -1,7 +1,14 @@
 import Avatar from "@/components/Avatar";
 import Dropdown from "@/components/Dropdown";
+
+import {
+  toggleClose,
+  toggleMaximize,
+  toggleMinimize,
+} from "@/service/store/slice/window.slice";
 import { DragControls, motion } from "framer-motion";
 import { ChangeEvent, useEffect, useRef, useState } from "react";
+import { useDispatch } from "react-redux";
 interface DefaultHeaderProps {
   controls: DragControls;
   title: string;
@@ -11,6 +18,7 @@ export const DefaultHeader = ({
   title = "Folder 1",
   controls,
 }: DefaultHeaderProps) => {
+  const dispatch = useDispatch();
   const [active, setActive] = useState(false);
   const [rename, setRename] = useState("");
   const inputRef = useRef<HTMLInputElement>(null);
@@ -78,7 +86,7 @@ export const DefaultHeader = ({
             <input
               ref={inputRef}
               type="text"
-              className="input w-full max-w-xs border-2 border-black font-bold"
+              className="input w-full max-w-xs border-2 border-black font-bold "
               onChange={handleRename}
             />
           ) : (
@@ -90,9 +98,21 @@ export const DefaultHeader = ({
           )}
         </div>
         <div className="navbar-end">
-          <button className="btn btn-ghost btn-circle">1</button>
-          <button className="btn btn-ghost btn-circle">2</button>
-          <button className="btn btn-ghost btn-circle">3</button>
+          <button
+            className="btn btn-ghost btn-circle"
+            onClick={() => dispatch(toggleMinimize())}>
+            1
+          </button>
+          <button
+            className="btn btn-ghost btn-circle"
+            onClick={() => dispatch(toggleMaximize())}>
+            2
+          </button>
+          <button
+            className="btn btn-ghost btn-circle"
+            onClick={() => dispatch(toggleClose())}>
+            3
+          </button>
         </div>
       </nav>
     </motion.header>
