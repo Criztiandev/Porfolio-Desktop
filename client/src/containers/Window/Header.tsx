@@ -46,6 +46,7 @@ export const DefaultHeader = ({
       setActive(false);
     }
   };
+
   useEffect(() => {
     document.addEventListener("click", handleClickOutside);
     window.addEventListener("keypress", handleEnterPress as any);

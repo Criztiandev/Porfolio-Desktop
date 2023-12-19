@@ -6,6 +6,7 @@ import {
 } from "../reducer/window.reducer";
 
 export interface WindowState {
+  name: string;
   isMaximize: boolean;
   isClose: boolean;
   isMinimize: boolean;

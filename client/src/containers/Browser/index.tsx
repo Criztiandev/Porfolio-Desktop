@@ -9,7 +9,7 @@ const Browser = () => {
   const windowState = useSelector((state: RootState) => state.window[BID]);
   const controls = useDragControls();
   return (
-    <Window controls={controls} {...windowState}>
+    <Window title={BID} controls={controls} {...windowState}>
       <Window.BrowserHeader onPoint={controls} />
     </Window>
   );

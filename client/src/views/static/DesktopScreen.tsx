@@ -11,6 +11,7 @@ const DesktopScreen = () => {
       ref={parentRef}>
       <Browser />
       <Folder />
+      <Folder />
     </div>
   );
 };

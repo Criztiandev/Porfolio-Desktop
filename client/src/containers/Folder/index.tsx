@@ -9,7 +9,7 @@ const Folder = () => {
   const windowState = useSelector((state: RootState) => state.window[FID]);
   const controls = useDragControls();
   return (
-    <Window controls={controls} {...windowState}>
+    <Window title={FID} controls={controls} {...windowState}>
       <Window.Header FID={FID} title={`Folder`} onPoint={controls} />
     </Window>
   );
