@@ -2,10 +2,11 @@ import React, { forwardRef, ForwardedRef, Ref, RefObject } from "react";
 import { BrowserHeader, DefaultHeader } from "./Header";
 import { DragControls, motion } from "framer-motion";
 import { BaseProps } from "@/interface/Component";
-import { useSelector } from "react-redux";
-import { RootState } from "@/service/store";
 
 interface WindowProps extends BaseProps {
+  isMaximize: boolean;
+  isClose: boolean;
+  isMinimize: boolean;
   controls: DragControls;
 }
 
@@ -17,10 +18,10 @@ interface WindowComponent
   BrowserHeader: typeof BrowserHeader;
 }
 const Window = forwardRef(
-  ({ controls, children }: WindowProps, ref: ForwardedRef<HTMLDivElement>) => {
-    const { isMaximize, isClose, isMinimize } = useSelector(
-      (state: RootState) => state.window
-    );
+  (
+    { isMaximize, isClose, isMinimize, controls, children }: WindowProps,
+    ref: ForwardedRef<HTMLDivElement>
+  ) => {
     const containerRef = ref as Ref<HTMLDivElement>;
     const isPreview = isMinimize || isClose;
     return (

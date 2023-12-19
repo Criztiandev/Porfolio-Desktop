@@ -10,14 +10,21 @@ import {
 import { DragControls, motion } from "framer-motion";
 import { ChangeEvent, KeyboardEvent, useEffect, useRef, useState } from "react";
 import { useDispatch } from "react-redux";
+
 interface DefaultHeaderProps {
-  controls: DragControls;
+  FID: string;
+  onPoint: DragControls;
   title: string;
+}
+
+interface BrowserHeaderProps {
+  onPoint: DragControls;
 }
 
 export const DefaultHeader = ({
   title = "Folder 1",
-  controls,
+  onPoint,
+  FID,
 }: DefaultHeaderProps) => {
   const dispatch = useDispatch();
   const [active, setActive] = useState(false);
@@ -51,7 +58,7 @@ export const DefaultHeader = ({
 
   return (
     <motion.header
-      onPointerDown={(e) => controls.start(e)}
+      onPointerDown={(e) => onPoint.start(e)}
       className="border-b-2 border-black">
       <nav className="navbar bg-base-100">
         <div className="navbar-start">
@@ -109,17 +116,17 @@ export const DefaultHeader = ({
         <div className="navbar-end">
           <button
             className="btn btn-ghost btn-circle"
-            onClick={() => dispatch(toggleMinimize())}>
+            onClick={() => dispatch(toggleMinimize(FID))}>
             1
           </button>
           <button
             className="btn btn-ghost btn-circle"
-            onClick={() => dispatch(toggleMaximize())}>
+            onClick={() => dispatch(toggleMaximize(FID))}>
             2
           </button>
           <button
             className="btn btn-ghost btn-circle"
-            onClick={() => dispatch(toggleClose())}>
+            onClick={() => dispatch(toggleClose(FID))}>
             3
           </button>
         </div>
@@ -128,9 +135,11 @@ export const DefaultHeader = ({
   );
 };
 
-export const BrowserHeader = () => {
+export const BrowserHeader = ({ onPoint }: BrowserHeaderProps) => {
   return (
-    <header className="border-b-2 border-black">
+    <motion.header
+      onPointerDown={(e) => onPoint.start(e)}
+      className="border-b-2 border-black">
       <nav className="navbar bg-base-100">
         <div className="navbar-start">
           <div className="dropdown">
@@ -198,6 +207,6 @@ export const BrowserHeader = () => {
           </Dropdown>
         </div>
       </nav>
-    </header>
+    </motion.header>
   );
 };

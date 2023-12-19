@@ -11,11 +11,11 @@ export interface WindowState {
   isMinimize: boolean;
 }
 
-const initialState: WindowState = {
-  isMaximize: false,
-  isClose: false,
-  isMinimize: false,
-};
+export interface windowInitialState {
+  [key: string]: WindowState;
+}
+
+const initialState: windowInitialState = {};
 
 const windowSlice = createSlice({
   name: "window",

@@ -1,8 +1,8 @@
 import { configureStore, Reducer, combineReducers } from "@reduxjs/toolkit";
-import windowReducer, { WindowState } from "./slice/window.slice";
+import windowReducer, { windowInitialState } from "./slice/window.slice";
 
 export interface RootState {
-  window: WindowState;
+  window: windowInitialState;
 }
 
 const rootReducer: Reducer<RootState> = combineReducers({
