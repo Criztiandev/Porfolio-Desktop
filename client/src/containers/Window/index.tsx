@@ -28,7 +28,7 @@ const Window = forwardRef(
         dragControls={controls}
         dragListener={false}
         dragConstraints={ref ? (ref as RefObject<Element>) : false}
-        className="absolute w-[800px] h-[500px] border-2 border-black rounded-md overflow-hidden">
+        className="absolute w-[800px] h-[500px] border-2 border-black rounded-md overflow-hidden bg-white">
         {children}
       </motion.div>
     );

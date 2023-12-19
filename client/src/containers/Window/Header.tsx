@@ -19,8 +19,18 @@ export const DefaultHeader = ({
     setRename(e.target.value);
   };
 
+  const handleClickOutside = (event: MouseEvent) => {
+    if (inputRef.current && !inputRef.current.contains(event.target as Node)) {
+      setActive(false);
+    }
+  };
+
   useEffect(() => {
-    return () => {};
+    document.addEventListener("click", handleClickOutside);
+
+    return () => {
+      document.removeEventListener("click", handleClickOutside);
+    };
   }, []);
 
   return (
@@ -66,6 +76,7 @@ export const DefaultHeader = ({
         <div className="navbar-center">
           {active ? (
             <input
+              ref={inputRef}
               type="text"
               className="input w-full max-w-xs border-2 border-black font-bold"
               onChange={handleRename}
