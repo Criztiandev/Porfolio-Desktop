@@ -1,6 +1,6 @@
-import LandingScreen from "@/views/static/LandingScreen";
+import DesktopScreen from "@/views/static/DesktopScreen";
 import { createBrowserRouter } from "react-router-dom";
 
 export const publicRoutes = createBrowserRouter([
-  { path: "/", element: <LandingScreen /> },
+  { path: "/", element: <DesktopScreen /> },
 ]);
