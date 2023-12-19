@@ -1,3 +1,4 @@
+/* eslint-disable @typescript-eslint/no-explicit-any */
 import Avatar from "@/components/Avatar";
 import Dropdown from "@/components/Dropdown";
 
@@ -7,7 +8,7 @@ import {
   toggleMinimize,
 } from "@/service/store/slice/window.slice";
 import { DragControls, motion } from "framer-motion";
-import { ChangeEvent, useEffect, useRef, useState } from "react";
+import { ChangeEvent, KeyboardEvent, useEffect, useRef, useState } from "react";
 import { useDispatch } from "react-redux";
 interface DefaultHeaderProps {
   controls: DragControls;
@@ -33,13 +34,20 @@ export const DefaultHeader = ({
     }
   };
 
+  const handleEnterPress = (event: KeyboardEvent) => {
+    if (event.key === "Enter" && active) {
+      setActive(false);
+    }
+  };
   useEffect(() => {
     document.addEventListener("click", handleClickOutside);
+    window.addEventListener("keypress", handleEnterPress as any);
 
     return () => {
       document.removeEventListener("click", handleClickOutside);
+      window.removeEventListener("keypress", handleEnterPress as any);
     };
-  }, []);
+  }, [active]); // Include 'active' as a dependency
 
   return (
     <motion.header
@@ -87,6 +95,7 @@ export const DefaultHeader = ({
               ref={inputRef}
               type="text"
               className="input w-full max-w-xs border-2 border-black font-bold "
+              value={rename}
               onChange={handleRename}
             />
           ) : (
