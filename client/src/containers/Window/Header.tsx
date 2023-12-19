@@ -1,6 +1,6 @@
 /* eslint-disable @typescript-eslint/no-explicit-any */
-import Avatar from "@/components/Avatar";
-import Dropdown from "@/components/Dropdown";
+import Button from "@/components/Button";
+import { handleSearch } from "@/service/store/slice/browser.slice";
 
 import {
   toggleClose,
@@ -8,7 +8,14 @@ import {
   toggleMinimize,
 } from "@/service/store/slice/window.slice";
 import { DragControls, motion } from "framer-motion";
-import { ChangeEvent, KeyboardEvent, useEffect, useRef, useState } from "react";
+import {
+  ChangeEvent,
+  KeyboardEvent,
+  useEffect,
+  useRef,
+  useState,
+  SyntheticEvent,
+} from "react";
 import { useDispatch } from "react-redux";
 
 interface DefaultHeaderProps {
@@ -18,6 +25,7 @@ interface DefaultHeaderProps {
 }
 
 interface BrowserHeaderProps {
+  title: string;
   onPoint: DragControls;
 }
 
@@ -136,24 +144,74 @@ export const DefaultHeader = ({
   );
 };
 
-export const BrowserHeader = ({ onPoint }: BrowserHeaderProps) => {
+export const BrowserHeader = ({ title, onPoint }: BrowserHeaderProps) => {
+  const [search, setSearch] = useState<string>("www.google.com");
+  const dispatch = useDispatch();
+
+  const _handleSearch = (e: ChangeEvent<HTMLInputElement>) => {
+    setSearch(e.target.value);
+  };
+
+  const handleSubmit = (e: SyntheticEvent) => {
+    e.preventDefault();
+    dispatch(handleSearch({ id: title, search: search }));
+  };
+
   return (
     <motion.header
       onPointerDown={(e) => onPoint.start(e)}
       className="border-b-2 border-black">
       <nav className="navbar bg-base-100 ">
         <div className="navbar-start flex gap-2">
-          <div className="btn btn-circle bg-orange-400/50 btn-sm border-2 border-black"></div>
-          <div className="btn btn-circle bg-orange-400/50 btn-sm border-2 border-black"></div>
-          <div className="btn btn-circle bg-orange-400/50 btn-sm border-2 border-black"></div>
+          <Button className="bg-orange-400/50 btn-sm btn-circle"></Button>
+          <Button className="bg-orange-400/50 btn-sm btn-circle"></Button>
+          <Button className="bg-orange-400/50 btn-sm btn-circle"></Button>
         </div>
         <div className="navbar-center flex gap-2">
           <div className="flex gap-2">
-            <button className="btn border-2 border-black">H</button>
-            <button className="btn border-2 border-black">H</button>
+            <Button className="btn-circle">
+              <svg
+                xmlns="http://www.w3.org/2000/svg"
+                width="24"
+                height="24"
+                viewBox="0 0 24 24"
+                fill="black">
+                <path d="M13.293 6.293 7.586 12l5.707 5.707 1.414-1.414L10.414 12l4.293-4.293z"></path>
+              </svg>
+            </Button>
+            <Button className="btn-circle">
+              <svg
+                xmlns="http://www.w3.org/2000/svg"
+                width="24"
+                height="24"
+                viewBox="0 0 24 24"
+                fill="black">
+                <path d="M10.707 17.707 16.414 12l-5.707-5.707-1.414 1.414L13.586 12l-4.293 4.293z"></path>
+              </svg>
+            </Button>
           </div>
-          <input className="input border-2 border-black w-[320px] font-semibold text-xl" />
-          <button className="btn border-2 border-black">H</button>
+          <form onSubmit={handleSubmit} className="flex gap-2">
+            <input
+              className="input border-2 border-black w-[320px] font-semibold text-xl"
+              value={search}
+              onChange={_handleSearch}
+            />
+            <Button type="submit" className="btn-circle">
+              <svg
+                xmlns="http://www.w3.org/2000/svg"
+                className="h-5 w-5"
+                fill="none"
+                viewBox="0 0 24 24"
+                stroke="currentColor">
+                <path
+                  strokeLinecap="round"
+                  strokeLinejoin="round"
+                  strokeWidth="2"
+                  d="M21 21l-6-6m2-5a7 7 0 11-14 0 7 7 0 0114 0z"
+                />
+              </svg>
+            </Button>
+          </form>
         </div>
       </nav>
     </motion.header>

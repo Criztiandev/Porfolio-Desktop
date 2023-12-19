@@ -5,6 +5,7 @@ export const handleMaximize = (
   state: windowInitialState,
   action: PayloadAction<string>
 ) => {
+  console.log(action.payload);
   const id = action.payload;
   state[id] = { ...state[id], isMaximize: !state[id]?.isMaximize };
 };
